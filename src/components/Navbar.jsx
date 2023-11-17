@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material';
 
 const drawerWidth = 240;
 
-function DrawerAppBar(props) {
+function Navbar(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -74,7 +74,7 @@ function DrawerAppBar(props) {
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
                         display: { xs: 'block' },
@@ -88,12 +88,8 @@ function DrawerAppBar(props) {
     );
 }
 
-DrawerAppBar.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
+Navbar.propTypes = {
     window: PropTypes.func,
 };
 
-export default DrawerAppBar;
+export default Navbar;
