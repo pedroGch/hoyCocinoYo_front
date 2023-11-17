@@ -60,7 +60,7 @@ function DrawerAppBar(props) {
                         <Typography
                             variant="h6"
                             textAlign="center"
-                            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+                            sx={{ flexGrow: 1 }}
                         >
                             Hoy, cocino yo!
                         </Typography>
