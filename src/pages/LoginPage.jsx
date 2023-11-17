@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function Copyright(props) {
@@ -75,6 +77,15 @@ export default function SignIn() {
             >
               Iniciar sesión
             </Button>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Box sx={{mt: 3}}>
+                  <Link to="/register">
+                    ¿No tenés cuenta todavía? Registrate
+                  </Link>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

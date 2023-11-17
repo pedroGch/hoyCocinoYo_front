@@ -1,11 +1,7 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -107,11 +103,13 @@ export default function SignUp() {
             >
               Registrarse
             </Button>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent="center">
               <Grid item>
-                <Link href="/login" variant="body2">
-                  ¿Ya tenés una cuenta? Inicia sesión
-                </Link>
+                <Box sx={{mt: 3}}>
+                  <Link to="/login">
+                    ¿Ya tenés una cuenta? Inicia sesión
+                  </Link>
+                </Box>
               </Grid>
             </Grid>
           </Box>
