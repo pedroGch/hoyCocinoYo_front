@@ -1,17 +1,34 @@
 import * as React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
+import { Typography, Toolbar, Box, AppBar, IconButton, CssBaseline, createTheme, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ThemeProvider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import CreateIcon from '@mui/icons-material/Create';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 
 const drawerWidth = 240;
+
+const links = [
+    {
+        id: 1,
+        text: 'Home',
+        url: '/',
+        icon: <HomeIcon />,
+    },
+    {
+        id: 2,
+        text: 'Cargar receta',
+        url: '/upload',
+        icon: <CreateIcon />,
+    },
+    {
+        id: 3,
+        text: 'Recetas guardadas',
+        url: '/saved',
+        icon: <BookmarkIcon />
+    }
+];
 
 function Navbar(props) {
     const { window } = props;
@@ -24,9 +41,25 @@ function Navbar(props) {
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                MUI
+                <Box component='img' alt='Hoy cocino yo' src='/logo.png' sx={{ width: '75px' }} />
             </Typography>
             <Divider />
+            <List>
+                {
+                    links.map((link) => (
+                        <ListItem disablePadding key={link.id}>
+                            <Link component={RouterLink} to={link.url} sx={{ width: '100%' }} underline='none' variant='body2' color='rgba(0,0,0,.87)'>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        {link.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={link.text} sx={{ marginBottom: 0 }} />
+                                </ListItemButton>
+                            </Link>
+                        </ListItem>
+                    ))
+                }
+            </List>
         </Box>
     );
 
