@@ -1,12 +1,9 @@
 import React from 'react'
 import {
     Card,
-    CardHeader,
     CardMedia,
     CardContent,
     CardActions,
-    Avatar,
-    IconButton,
     Typography,
     Divider,
     Chip,
