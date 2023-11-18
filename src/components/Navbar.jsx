@@ -76,48 +76,49 @@ function Navbar(props) {
     })
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <ThemeProvider theme={theme}>
-                <AppBar component="nav">
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            sx={{ mr: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography
-                            variant="h6"
-                            textAlign="center"
-                            sx={{ flexGrow: 1 }}
-                        >
-                            Hoy, cocino yo!
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-            </ThemeProvider>
-            <nav>
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onClose={handleDrawerToggle}
-                    ModalProps={{
-                        keepMounted: true,
-                    }}
-                    sx={{
-                        display: { xs: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                    }}
-                >
-                    {drawer}
-                </Drawer>
-            </nav>
-        </Box>
+        <header>
+            <Box>
+                <ThemeProvider theme={theme}>
+                    <AppBar component="nav">
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                sx={{ mr: 2 }}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Typography
+                                variant="h6"
+                                textAlign="center"
+                                sx={{ flexGrow: 1 }}
+                            >
+                                Hoy, cocino yo!
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                </ThemeProvider>
+                <nav>
+                    <Drawer
+                        container={container}
+                        variant="temporary"
+                        open={mobileOpen}
+                        onClose={handleDrawerToggle}
+                        ModalProps={{
+                            keepMounted: true,
+                        }}
+                        sx={{
+                            display: { xs: 'block' },
+                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                        }}
+                    >
+                        {drawer}
+                    </Drawer>
+                </nav>
+            </Box>
+        </header>
     );
 }
 
