@@ -35,8 +35,7 @@ const RecipeCard = () => {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <Button size="small" variant="contained">
-                    Ver más
+                <Button size="small" variant="contained"sx={{ backgroundColor: '#775653',}} >                    Ver más
                 </Button>
             </CardActions>
         </Card>
