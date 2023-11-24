@@ -9,8 +9,8 @@ const Footer = () => {
                 left: 0,
                 right: 0,
                 position: 'absolute',
-                padding: '1rem',
-                fontSize: '1rem'
+                textAlign: 'center',
+                padding: '1rem 0',
             }}>
                 <Divider sx={{
                     marginBottom: '1rem'

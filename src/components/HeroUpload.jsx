@@ -1,7 +1,6 @@
 import React from 'react'
 import { styled } from '@mui/material/styles';
-import {Grid, Box, Container,Button ,Typography, TextField, InputLabel, Select, MenuItem, FormControl} from '@mui/material'
-import { TextareaAutosize } from '@mui/base/TextareaAutosize';
+import { Grid, Box, Container, Button, Typography, TextField, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
@@ -25,14 +24,16 @@ const HeroUpload = () => {
     return (
         <section>
             <Container sx={{
-                marginTop:'5rem'
+                marginTop: '5rem'
             }}>
                 <Box sx={{
                     backgroundColor: '#775653',
                     margin: '0 auto',
                     height: '100px',
+                    display: 'flex',
                     justifyContent: 'center',
-                    
+                    alignItems: 'center',
+
                 }}>
                     <Typography sx={{
                         xs: {
@@ -42,7 +43,6 @@ const HeroUpload = () => {
                         fontSize: '1.8rem',
                         fontWeight: 'bold',
                         textAlign: 'center',
-                        marginBottom: '2rem'
                     }}>Ingresar receta</Typography>
                 </Box>
                 <Box>
@@ -50,30 +50,32 @@ const HeroUpload = () => {
                         <Box sx={{
                             marginBottom: '2rem',
                             justifyContent: 'center',
-                        }}>    
-                            <TextField sx={{width:'45%', paddingRight:'1rem' }} id="standard-basic" label="Standard" variant="standard" />
-                            <FormControl variant="standard" sx={{width:'45%', paddingRight:'1rem'}}>
-                            <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+                        }}>
+                            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="standard-basic" label="Standard" variant="standard" />
+                            <FormControl variant="standard" sx={{ width: '45%', paddingRight: '1rem' }}>
+                                <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
                                 <Select
-                                labelId="demo-simple-select-standard-label"
-                                id="demo-simple-select-standard"
-                                value={age}
-                                onChange={handleChange}
-                                label="Age"
+                                    labelId="demo-simple-select-standard-label"
+                                    id="demo-simple-select-standard"
+                                    value={age}
+                                    onChange={handleChange}
+                                    label="Age"
                                 >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value={10}>Ten</MenuItem>
+                                    <MenuItem value={20}>Twenty</MenuItem>
+                                    <MenuItem value={30}>Thirty</MenuItem>
                                 </Select>
-                            </FormControl>   
+                            </FormControl>
                         </Box>
                         <Box sx={{
                             backgroundColor: '#775653',
                             margin: '0 auto',
+                            display: 'flex',
                             justifyContent: 'center',
+                            alignItems: 'center',
                             height: '100px',
                         }}>
                             <Typography sx={{
@@ -85,54 +87,53 @@ const HeroUpload = () => {
                                 fontSize: '1.8rem',
                                 fontWeight: 'bold',
                                 textAlign: 'center',
-                                marginBottom: '2rem'
                             }}>Ingredientes</Typography>
-                        </Box> 
+                        </Box>
 
                         <Box sx={{
                             marginBottom: '2rem',
                             justifyContent: 'center',
                         }}>
-                            <Grid container spacing={2} sx={{marginBottom: '2rem'}}>
-                                <Grid item xs={12} md={4}>                                    
+                            <Grid container spacing={2} sx={{ marginBottom: '2rem' }}>
+                                <Grid item xs={12} md={4}>
                                     <TextField fullWidth id="standard-basic" label="Standard" variant="standard" />
                                 </Grid>
                                 <Grid item xs={12} md={4}>
-                                    <TextField fullWidth id="standard-basic" label="Standard" variant="standard" />                                    
+                                    <TextField fullWidth id="standard-basic" label="Standard" variant="standard" />
                                 </Grid>
-                                <Grid item xs={12} md={4}>                                    
+                                <Grid item xs={12} md={4}>
                                     <FormControl fullWidth variant="standard">
-                                    <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+                                        <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
                                         <Select
-                                        labelId="demo-simple-select-standard-label"
-                                        id="demo-simple-select-standard"
-                                        value={age}
-                                        onChange={handleChange}
-                                        label="Age"
+                                            labelId="demo-simple-select-standard-label"
+                                            id="demo-simple-select-standard"
+                                            value={age}
+                                            onChange={handleChange}
+                                            label="Age"
                                         >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value={10}>Ten</MenuItem>
+                                            <MenuItem value={20}>Twenty</MenuItem>
+                                            <MenuItem value={30}>Thirty</MenuItem>
                                         </Select>
                                     </FormControl>
                                 </Grid>
-                                <Grid item xs={12}> 
-                                    <Button variant="contained" sx={{backgroundColor: '#775653',}}>Agregar ingrediente</Button>
+                                <Grid item xs={12}>
+                                    <Button variant="contained" sx={{ backgroundColor: '#775653', }}>Agregar ingrediente</Button>
                                 </Grid>
                             </Grid>
-                            <Grid container sx={{marginBottom: '2rem'}}>
-                                <TextareaAutosize minRows={15} fullWidth />
+                            <Grid container sx={{ marginBottom: '2rem' }}>
+                                <TextField fullWidth label="fullWidth" id="fullWidth" />
                             </Grid>
                             <Grid container>
-                                <Button fullWidth sx={{backgroundColor: '#775653',}} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+                                <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                                     Subir archivo
                                     <VisuallyHiddenInput type="file" />
                                 </Button>
-                            </Grid>    
-                        </Box>                   
+                            </Grid>
+                        </Box>
                     </form>
                 </Box>
             </Container>
