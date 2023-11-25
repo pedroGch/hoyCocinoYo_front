@@ -13,7 +13,7 @@ const route = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element:  <LoginPage />,
   },
   {
     path: "/register",
@@ -21,11 +21,11 @@ const route = createBrowserRouter([
   },
   {
     path: "/upload",
-    element: <UploadPage />,
+    element: localStorage.getItem('token') ? <UploadPage /> : <LoginPage />,
   },
   {
     path: "/saved",
-    element: <SavedPage />,
+    element: localStorage.getItem('token') ? <SavedPage /> : <LoginPage />,
   },
 ]);
 
