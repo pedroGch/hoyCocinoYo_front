@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { Typography, Toolbar, Box, AppBar, IconButton, CssBaseline, createTheme, Divider, Drawer, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, ThemeProvider } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -11,65 +12,88 @@ import LogoutIcon from '@mui/icons-material/Logout';
 const drawerWidth = 240;
 
 const links = [
-    {
-        id: 1,
-        text: 'Home',
-        url: '/',
-        icon: <HomeIcon />,
-    },
-    {
-        id: 2,
-        text: 'Cargar receta',
-        url: '/upload',
-        icon: <CreateIcon />,
-    },
-    {
-        id: 3,
-        text: 'Recetas guardadas',
-        url: '/saved',
-        icon: <BookmarkIcon />
-    },
-    {
-        id: 4,
-        text: 'logout',
-        url: '/logout',
-        icon: <LogoutIcon />
-    }
+  {
+    id: 1,
+    text: 'Home',
+    url: '/',
+    icon: <HomeIcon />,
+  },
+  {
+    id: 2,
+    text: 'Cargar receta',
+    url: '/upload',
+    icon: <CreateIcon />,
+  },
+  {
+    id: 3,
+    text: 'Recetas guardadas',
+    url: '/saved',
+    icon: <BookmarkIcon />
+  }
+ 
 
 ];
 
 function Navbar(props) {
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-
-    const handleDrawerToggle = () => {
-        setMobileOpen((prevState) => !prevState);
-    };
-
-    const drawer = (
-        <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ my: 2 }}>
-                <Box component='img' alt='Hoy cocino yo' src='/logo.png' sx={{ width: '75px' }} />
-            </Typography>
-            <Divider />
-            <List>
-                {
-                    links.map((link) => (
-                        <ListItem disablePadding key={link.id}>
-                            <Link component={RouterLink} to={link.url} sx={{ width: '100%' }} underline='none' variant='body2' color='rgba(0,0,0,.87)'>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {link.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={link.text} sx={{ marginBottom: 0 }} />
-                                </ListItemButton>
-                            </Link>
-                        </ListItem>
-                    ))
-                }
-            </List>
-        </Box>
-    );
+  const navigate = useNavigate()
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+  const handleLogout = () => {
+    const token = localStorage.getItem('token');
+    fetch('http://test.com:8009/api/v1/usuarios/cerrar-sesion', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        'x-acces-token' : token
+      }
+    })
+    .then(respuesta => {
+      if (respuesta.ok){
+        localStorage.removeItem('token');
+        navigate('/login')
+      }
+    })    
+    .catch(err => {
+      alert(err);
+    });
+  }
+  const drawer = (
+  <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+          <Box component='img' alt='Hoy cocino yo' src='/logo.png' sx={{ width: '75px' }} />
+      </Typography>
+      <Divider />
+      <List>
+          {
+              links.map((link) => (
+                  <ListItem disablePadding key={link.id}>
+                      <Link component={RouterLink} to={link.url} sx={{ width: '100%' }} underline='none' variant='body2' color='rgba(0,0,0,.87)'>
+                          <ListItemButton>
+                              <ListItemIcon>
+                                  {link.icon}
+                              </ListItemIcon>
+                              <ListItemText primary={link.text} sx={{ marginBottom: 0 }} />
+                          </ListItemButton>
+                      </Link>
+                  </ListItem>
+              ))
+          }
+          <ListItem disablePadding key='4'>
+            <Link to='#' onClick={handleLogout} sx={{ width: '100%' }} underline='none' variant='body2' color='rgba(0,0,0,.87)'>
+                <ListItemButton>
+                    <ListItemIcon>
+                      <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary='logout' sx={{ marginBottom: 0 }} />
+                </ListItemButton>
+            </Link>
+          </ListItem>
+      </List>
+  </Box>
+);
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
