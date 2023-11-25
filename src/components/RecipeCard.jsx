@@ -10,7 +10,7 @@ import {
     Button
 } from '@mui/material'
 
-const RecipeCard = () => {
+const RecipeCard = (props) => {
     return (
         <Card sx={{
             maxWidth: 345
@@ -23,7 +23,7 @@ const RecipeCard = () => {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    Panqueques
+                    {props.nombre}
                 </Typography>
                 <Chip label="Receta dulce" />
                 <Divider sx={{
@@ -31,7 +31,7 @@ const RecipeCard = () => {
                     marginBottom: 2
                 }} />
                 <Typography>
-                    Descripción breve
+                    {props.proparacion}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
