@@ -14,10 +14,10 @@ const Hero = () => {
         if (!respuesta.ok) {
           throw new Error('Error en el servidor')
         }
+
         return respuesta.json()
       })
       .then(res => {
-        console.log(res);
         setRecetas(res)
 
       })
