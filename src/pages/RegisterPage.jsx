@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
+import Footer from '../components/Footer';
 
 function Copyright(props) {
   return (
@@ -30,8 +31,8 @@ export default function SignUp() {
     const username = data.get('username')
     const email = data.get('email')
     const password = data.get('password')
-    const datos = JSON.stringify({email, password, username})
-    
+    const datos = JSON.stringify({ email, password, username })
+
     fetch('http://127.0.0.1:8009/api/v1/usuarios/registrar', {
       method: 'POST',
       headers: {
@@ -39,14 +40,14 @@ export default function SignUp() {
       },
       body: datos
     })
-    .then(respuesta => {
-      if(respuesta.ok){
-        navigate('/login', {replace: true})
-      }
-    })
-    .catch(err => {
-      alert(err);
-    });
+      .then(respuesta => {
+        if (respuesta.ok) {
+          navigate('/login', { replace: true })
+        }
+      })
+      .catch(err => {
+        alert(err);
+      });
   };
 
   return (
@@ -62,9 +63,9 @@ export default function SignUp() {
           }}
         >
           <Box component='img' sx={{
-                height: '200px',
-                width: 'auto'
-            }} alt='Logo' src='/logo.png'></Box>
+            height: '200px',
+            width: 'auto'
+          }} alt='Logo' src='/logo.png'></Box>
           <Typography component="h1" variant="h5">
             Registrarse
           </Typography>
@@ -113,7 +114,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Box sx={{mt: 3}}>
+                <Box sx={{ mt: 3 }}>
                   <Link to="/login">
                     ¿Ya tenés una cuenta? Inicia sesión
                   </Link>
@@ -122,7 +123,7 @@ export default function SignUp() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
+        <Footer />
       </Container>
     </ThemeProvider>
   );

@@ -87,7 +87,7 @@ function Navbar(props) {
                     <ListItemIcon>
                       <LogoutIcon />
                     </ListItemIcon>
-                    <ListItemText primary='logout' sx={{ marginBottom: 0 }} />
+                    <ListItemText primary='Cerrar sesión' sx={{ marginBottom: 0 }} />
                 </ListItemButton>
             </Link>
           </ListItem>
