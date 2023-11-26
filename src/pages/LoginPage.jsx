@@ -10,11 +10,13 @@ import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
+import Error from '../components/Error';
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const [error, setError] = useState(false);
+  const [alerta, setAlerta] = useState('');
   const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,9 +27,11 @@ export default function SignIn() {
 
     if (!email || !password) {
       setError(true);
+      setAlerta('Todos los campos son obligatorios');
       return;
     }
     setError(false);
+    setAlerta('');
 
     fetch('http://127.0.0.1:8009/api/v1/usuarios/iniciar-sesion', {
       method: 'POST',
@@ -42,6 +46,9 @@ export default function SignIn() {
           localStorage.setItem('token', res.token)
           localStorage.setItem('usuario', JSON.stringify(res));
           navigate('/', { replace: true })
+        } else {
+          setError(true);
+          setAlerta("Algo está mal, verificá tus datos");
         }
       })
       .catch(err => {
@@ -89,7 +96,7 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            {error && <Error>Todos los campos son obligatorios</Error>}
+            {error && <Error>{alerta}</Error>}
             <Button
               type="submit"
               fullWidth
