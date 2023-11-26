@@ -59,7 +59,13 @@ const Hero = () => {
         <Grid container spacing={2} sx={{justifyContent: 'center'}}>          
           {recetas.map(receta => (
             <Grid item key={receta.id} xs={12} md={6} lg={4}>
-              <RecipeCard nombre={receta.nombre} preparacion={receta.preparacion} />
+              <RecipeCard 
+                img_ruta={receta.imagen_ruta} 
+                categoria={receta.categoria} 
+                nombre={receta.nombre} 
+                alt={receta.alt}
+                cantMeGusta={receta.cantMeGusta}
+              />
             </Grid>
           ))}
         </Grid>

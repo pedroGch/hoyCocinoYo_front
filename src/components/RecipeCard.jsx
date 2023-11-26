@@ -9,7 +9,9 @@ import {
     Chip,
     Button
 } from '@mui/material'
-
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import IconButton from '@mui/material/IconButton'
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 const RecipeCard = (props) => {
     return (
         <Card sx={{
@@ -18,24 +20,31 @@ const RecipeCard = (props) => {
             <CardMedia
                 component="img"
                 height="194"
-                image="/panqueque.jpg"
-                alt="Panqueque"
+                image={props.img_ruta}
+                alt={props.alt}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                     {props.nombre}
                 </Typography>
-                <Chip label="Receta dulce" />
-                <Divider sx={{
-                    marginTop: 2,
-                    marginBottom: 2
-                }} />
+                <Chip label={props.categoria} />                
+                            
                 <Typography>
                     {props.proparacion}
-                </Typography>
+                </Typography> 
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                  <Typography>
+                    {props.cantMeGusta}
+                </Typography> 
+                </IconButton>  
+                <IconButton aria-label="add to favorites">
+                  <BookmarkIcon />
+                </IconButton>                 
             </CardContent>
             <CardActions disableSpacing>
-                <Button size="small" variant="contained"sx={{ backgroundColor: '#775653',}} >                    Ver más
+                <Button size="small" variant="contained"sx={{ backgroundColor: '#775653',}} >                    
+                  Ver más
                 </Button>
             </CardActions>
         </Card>
