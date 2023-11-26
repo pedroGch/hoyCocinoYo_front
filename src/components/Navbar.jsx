@@ -43,7 +43,7 @@ function Navbar(props) {
   };
   const handleLogout = () => {
     const token = localStorage.getItem('token');
-    fetch('http://test.com:8009/api/v1/usuarios/cerrar-sesion', {
+    fetch('http://127.0.0.1:8009/api/v1/usuarios/cerrar-sesion', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',

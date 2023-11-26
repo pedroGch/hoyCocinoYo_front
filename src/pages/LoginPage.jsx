@@ -30,7 +30,7 @@ export default function SignIn() {
     const datos = JSON.stringify({email, password})
     
 
-    fetch('http://test.com:8009/api/v1/usuarios/iniciar-sesion', {
+    fetch('http://127.0.0.1:8009/api/v1/usuarios/iniciar-sesion', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'

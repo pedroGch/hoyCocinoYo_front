@@ -7,7 +7,7 @@ const Hero = () => {
   const [recetas, setRecetas] = useState([]);
   const user =  JSON.parse(localStorage.getItem('usuario'))
   useEffect(() => {
-    fetch('http://test.com:8009/api/v1/recetas/todas')
+    fetch('http://127.0.0.1:8009/api/v1/recetas/todas')
       .then(respuesta => {
         
         if (!respuesta.ok) {

@@ -16,7 +16,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 const RecipeCard = (props) => {
   const LikeRecipe = (cantidad, id) => {
     
-    fetch(`http://test.com:8009/api/v1/recetas/${id}/editar`,{
+    fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}/editar`,{
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -32,8 +32,7 @@ export default function SignUp() {
     const password = data.get('password')
     const datos = JSON.stringify({email, password, username})
     
-
-    fetch('http://test.com:8009/api/v1/usuarios/registrar', {
+    fetch('http://127.0.0.1:8009/api/v1/usuarios/registrar', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
