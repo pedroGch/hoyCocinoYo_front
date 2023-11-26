@@ -65,6 +65,7 @@ const Hero = () => {
                 nombre={receta.nombre} 
                 alt={receta.alt}
                 cantMeGusta={receta.cantMeGusta}
+                id={receta._id}
               />
             </Grid>
           ))}
