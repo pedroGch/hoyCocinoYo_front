@@ -4,7 +4,6 @@ import RegisterPage from './pages/RegisterPage'
 import UploadPage from './pages/UploadPage'
 import SavedPage from './pages/SavedPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import { Upload } from '@mui/icons-material';
 
 const route = createBrowserRouter([
   {

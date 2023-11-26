@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,22 +10,16 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from "react-router-dom";
 import Footer from '../components/Footer';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © hoyCocinoYo | '}
-      {new Date().getFullYear()}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import Error from '../components/Error';
 
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate()
+
+  const [error, setError] = useState(false);
+  const [alerta, setAlerta] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -32,6 +27,14 @@ export default function SignUp() {
     const email = data.get('email')
     const password = data.get('password')
     const datos = JSON.stringify({ email, password, username })
+
+    if (!username || !email || !password) {
+      setError(true);
+      setAlerta('Todos los campos son obligatorios');
+      return;
+    }
+    setError(false);
+    setAlerta('');
 
     fetch('http://127.0.0.1:8009/api/v1/usuarios/registrar', {
       method: 'POST',
@@ -43,6 +46,9 @@ export default function SignUp() {
       .then(respuesta => {
         if (respuesta.ok) {
           navigate('/login', { replace: true })
+        } else {
+          setError(true);
+          setAlerta("Algo está mal, verificá si el correo electrónico que estás ingresando tiene un formato correcto o si ya existe una cuenta con esa direcciónx");
         }
       })
       .catch(err => {
@@ -92,7 +98,7 @@ export default function SignUp() {
                   autoComplete="email"
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} mb={2}>
                 <TextField
                   required
                   fullWidth
@@ -104,6 +110,7 @@ export default function SignUp() {
                 />
               </Grid>
             </Grid>
+            {error && <Error>{alerta}</Error>}
             <Button
               type="submit"
               fullWidth
