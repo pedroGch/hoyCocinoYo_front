@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from "react"
-import { Box, Container, Divider, Grid, Typography } from '@mui/material'
-import RecipeCard from './RecipeCard'
+import { useCallback, useEffect, useState } from "react";
+import { capitalize } from "../helpers";
+import { Box, Container, Divider, Grid, Typography } from '@mui/material';
+import RecipeCard from './RecipeCard';
 
 
 const Hero = () => {
@@ -35,7 +36,7 @@ const Hero = () => {
           fontWeight: 'bold',
           textAlign: 'center',
           marginTop: '6rem'
-        }}>Te damos la bienvenida {user.username} a tu libro de recetas</Typography>
+        }}>{capitalize(user.username)}, te damos la bienvenida a tu libro de recetas</Typography>
         <Divider sx={{
           marginTop: '2rem',
           marginBottom: '2rem'
@@ -58,7 +59,7 @@ const Hero = () => {
         
         <Grid container spacing={2} sx={{justifyContent: 'center'}}>          
           {recetas.map(receta => (
-            <Grid item key={receta.id} xs={12} md={6} lg={4}>
+            <Grid item key={receta._id} xs={12} md={6} lg={4}>
               <RecipeCard 
                 img_ruta={receta.imagen_ruta} 
                 categoria={receta.categoria} 
