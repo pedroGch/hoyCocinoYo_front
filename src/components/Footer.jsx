@@ -8,7 +8,7 @@ const Footer = () => {
                 bottom: 0,
                 left: 0,
                 right: 0,
-                position: 'absolute',
+                position: 'relative',
                 textAlign: 'center',
                 padding: '1rem 0',
             }}>
