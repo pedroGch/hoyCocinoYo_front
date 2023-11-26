@@ -41,6 +41,7 @@ export default function SignIn() {
     .then(res => {
       if (res.token)  {
         localStorage.setItem('token', res.token)
+        localStorage.setItem('usuario', JSON.stringify(res));
         navigate('/', {replace: true})
       }
     })
