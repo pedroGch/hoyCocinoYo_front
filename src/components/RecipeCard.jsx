@@ -12,7 +12,26 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import IconButton from '@mui/material/IconButton'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+
 const RecipeCard = (props) => {
+  const LikeRecipe = (cantidad, id) => {
+    
+    fetch(`http://test.com:8009/api/v1/recetas/${id}/editar`,{
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-acces-token' : localStorage.getItem('token')
+      },
+      body: JSON.stringify({"cantMeGusta" : cantidad}),
+    })
+    .then(respuesta => {
+      (respuesta.ok) ?  alert('todo ok') : alert('ups algo salio mal')
+    })
+  }
+  const handleLikedRecipe = (cantidad, id) => {
+    localStorage.getItem('token') ? LikeRecipe(cantidad+1, id) : alert('Para dar me gusta debes estar logueado')
+  }
+  
   return (
     <Card sx={{
       maxWidth: 345
@@ -32,7 +51,7 @@ const RecipeCard = (props) => {
         <Typography>
             {props.proparacion}
         </Typography> 
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites"  onClick={() => handleLikedRecipe(props.cantMeGusta, props.id)}>
           <FavoriteIcon />
           <Typography>
             {props.cantMeGusta}
