@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -22,12 +23,30 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate()
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const username = data.get('username')
+    const email = data.get('email')
+    const password = data.get('password')
+    const datos = JSON.stringify({email, password, username})
+    
+
+    fetch('http://test.com:8009/api/v1/usuarios/registrar', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: datos
+    })
+    .then(respuesta => {
+      if(respuesta.ok){
+        navigate('/login', {replace: true})
+      }
+    })
+    .catch(err => {
+      alert(err);
     });
   };
 
@@ -52,25 +71,15 @@ export default function SignUp() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
-                  label="Nombre"
+                  id="username"
+                  label="Nombre de usuario"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Apellido"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
