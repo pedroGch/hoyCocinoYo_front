@@ -5,7 +5,7 @@ import RecipeCard from './RecipeCard'
 
 const Hero = () => {
   const [recetas, setRecetas] = useState([]);
-  
+  const user =  JSON.parse(localStorage.getItem('usuario'))
   useEffect(() => {
     fetch('http://test.com:8009/api/v1/recetas/todas')
       .then(respuesta => {
@@ -35,7 +35,7 @@ const Hero = () => {
           fontWeight: 'bold',
           textAlign: 'center',
           marginTop: '6rem'
-        }}>Te damos la bienvenida a tu libro de recetas</Typography>
+        }}>Te damos la bienvenida {user.username} a tu libro de recetas</Typography>
         <Divider sx={{
           marginTop: '2rem',
           marginBottom: '2rem'
