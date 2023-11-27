@@ -36,7 +36,8 @@ export default function SignIn() {
     fetch('http://127.0.0.1:8009/api/v1/usuarios/iniciar-sesion', {
       method: 'POST',
       headers: {
-        'Content-type': 'application/json'
+        'Content-type': 'application/json',
+        'x-acces-token': localStorage.getItem('token')
       },
       body: datos
     })

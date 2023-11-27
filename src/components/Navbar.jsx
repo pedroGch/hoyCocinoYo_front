@@ -47,7 +47,7 @@ function Navbar(props) {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
-        'x-acces-token' : token
+        'x-acces-token': token
       }
     })
     .then(respuesta => {
