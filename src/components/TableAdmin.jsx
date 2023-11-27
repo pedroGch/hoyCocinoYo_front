@@ -29,8 +29,14 @@ const rows = [
 const TableAdmin = () => {
     const [recetas, setRecetas] = useState([]);
     const [receta, setReceta] = useState(null);
+
+    const user = JSON.parse(localStorage.getItem('usuario'))
+
+    const id_usuario = user._id;
+ console.log(id_usuario);
     useEffect(() => {
-        fetch('http://127.0.0.1:8009/api/v1/recetas/todas')
+        // fetch('http://127.0.0.1:8009/api/v1/recetas/todas')
+        fetch(`http://127.0.0.1:8009/api/v1/usuarios/${id_usuario}/recetas`)
             .then(respuesta => {
                 if (!respuesta.ok) {
                     throw new Error('Error en el servidor')
@@ -93,35 +99,21 @@ const TableAdmin = () => {
                         'x-acces-token': token
                     }
                 })
-                .then(respuesta => {
-                    if (!respuesta.ok) {
-                      throw new Error('Error en el servidor')
-                    }
-                    Swal.fire({
-                        title: "Borrada!",
-                        text: "Tu receta ha sido borrada con éxito.",
-                        icon: "success"
-                    });
-                    return respuesta.json();
-                  })
-              
-                }
-          });
+                    .then(respuesta => {
+                        if (!respuesta.ok) {
+                            throw new Error('Error en el servidor')
+                        }
+                        Swal.fire({
+                            title: "Borrada!",
+                            text: "Tu receta ha sido borrada con éxito.",
+                            icon: "success"
+                        });
+                        return respuesta.json();
+                    })
 
-        // fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}/borrar`)
-        // .then((res) => {
-        //     if (!res.ok) {
-        //         throw new Error('Error en el servidor');
-        //     }
-        //     return res.json();
-        // })
-        // .then((data) => {
-        //     setReceta(data);
-        //     console.log(receta);
-        // })
-        // .catch((err) => {
-        //     alert(err);
-        // });
+            }
+        });
+
 
     };
 
@@ -157,7 +149,7 @@ const TableAdmin = () => {
                         fontSize: '1.5rem',
                         textAlign: 'center',
                         marginBottom: '2rem'
-                    }}>Administrar recetas</Typography>
+                    }}>Administrar tus recetas</Typography>
                 </Box>
 
                 <TableContainer component={Paper}>
@@ -169,22 +161,33 @@ const TableAdmin = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {recetas.map((receta) => (
-                                <TableRow
-                                    key={receta.nombre}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell component="th" scope="row">
-                                        {receta.nombre}
+                            {recetas.length === 0 ? (
+                                <TableRow>
+                                    <TableCell colSpan={2}>
+                                        <p>Aún no has cargado ninguna receta.</p>
                                     </TableCell>
-                                    <TableCell align="right"><ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                        <Button onClick={() => handleClickVer(receta._id)}>Ver</Button>
-                                        <Button onClick={() => handleClickEditar(receta._id)}>Editar</Button>
-                                        <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
-                                    </ButtonGroup></TableCell>
                                 </TableRow>
-                            ))}
+                            ) : (
+                                recetas.map((receta) => (
+                                    <TableRow
+                                        key={receta.nombre}
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row">
+                                            {receta.nombre}
+                                        </TableCell>
+                                        <TableCell align="right">
+                                            <ButtonGroup variant="contained" aria-label="outlined primary button group">
+                                                <Button onClick={() => handleClickVer(receta._id)}>Ver</Button>
+                                                <Button onClick={() => handleClickEditar(receta._id)}>Editar</Button>
+                                                <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
+                                            </ButtonGroup>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            )}
                         </TableBody>
+
                     </Table>
                 </TableContainer>
 
