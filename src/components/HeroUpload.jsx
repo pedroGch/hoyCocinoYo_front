@@ -76,11 +76,11 @@ const HeroUpload = () => {
       if (response.ok) {
         Swal.fire({
           title: "Agregaste un nueva receta",
-          text: "¿Queres agregar otra?",
+          text: "¿Querés agregar otra?",
           icon: "success",
           showCancelButton: true,
-          confirmButtonText: "!Sí¡",
-          cancelButtonText: "No, !así estoy bien!",
+          confirmButtonText: "Sí",
+          cancelButtonText: "No, ¡así estoy bien!",
           reverseButtons: true
         }).then((result) => {
           if (result.isConfirmed) {
