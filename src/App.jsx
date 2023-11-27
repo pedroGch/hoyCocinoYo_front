@@ -3,6 +3,7 @@ import LoginPage from "./pages/LoginPage"
 import RegisterPage from './pages/RegisterPage'
 import UploadPage from './pages/UploadPage'
 import SavedPage from './pages/SavedPage'
+import AdminPage from './pages/AdminPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 
 const route = createBrowserRouter([
@@ -25,6 +26,10 @@ const route = createBrowserRouter([
   {
     path: "/saved",
     element: localStorage.getItem('token') ? <SavedPage /> : <LoginPage />,
+  },
+  {
+    path: "/admin",
+    element: localStorage.getItem('token') ? <AdminPage /> : <LoginPage />,
   },
 ]);
 
