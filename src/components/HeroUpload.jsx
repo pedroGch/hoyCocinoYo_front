@@ -2,9 +2,11 @@ import React from 'react'
 import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Divider, Grid, Box, Container, Button, Typography, TextField, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Swal from 'sweetalert2'
+import { useNavigate } from "react-router-dom";
 
 const HeroUpload = () => {
+  const navigate = useNavigate()
   const VisuallyHiddenInput = styled('input')({
     clip: 'rect(0 0 0 0)',
     clipPath: 'inset(50%)',
@@ -46,7 +48,7 @@ const HeroUpload = () => {
     setIngredientes(prevIngredientes => prevIngredientes.filter(ingrediente => ingrediente.id !== id));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     // Envio de datos al backend
     e.preventDefault();
     const usuario = JSON.parse(localStorage.getItem('usuario'))
@@ -62,7 +64,7 @@ const HeroUpload = () => {
     });
 
     try {
-      const response = fetch('http://127.0.0.1:8009/api/v1/recetas/crear', {
+      const  response = await fetch('http://127.0.0.1:8009/api/v1/recetas/crear', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -70,10 +72,41 @@ const HeroUpload = () => {
         },
         body: data,
       });
-
+      
       if (response.ok) {
-        const data = response.json();
-        console.log(data);
+        Swal.fire({
+          title: "Agregaste un nueva receta",
+          text: "¿Queres agregar otra?",
+          icon: "success",
+          showCancelButton: true,
+          confirmButtonText: "!Sí¡",
+          cancelButtonText: "No, !así estoy bien!",
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            //tengo que limpiar el formulario
+            document.getElementById('recetaNombre').value = ''
+            document.getElementById('recetaPreparacion').value = ''
+            setCategoria('');
+            document.getElementById('ingNombre').value = '';
+            document.getElementById('ingCantidad').value = '';
+            setUnidad('');
+            setCategoria([])
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            navigate('/')
+          }
+        });
+      }else{
+        const respuesta = await response.json()
+        const mensaje = respuesta.errors.map(error => `* ${error}`).join('\n');
+        Swal.fire({
+          icon: "error",
+          title: "Te Faltaron completar algunos campos...",
+          text: mensaje,
+        });
       }
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
