@@ -4,6 +4,7 @@ import RegisterPage from './pages/RegisterPage'
 import UploadPage from './pages/UploadPage'
 import SavedPage from './pages/SavedPage'
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import RecipeDetailsPage from './pages/recipes/RecipeDetailsPage'
 
 const route = createBrowserRouter([
   {
@@ -11,8 +12,12 @@ const route = createBrowserRouter([
     element: <HomePage />,
   },
   {
+    path: "/recipes/:id",
+    element: <RecipeDetailsPage />,
+  },
+  {
     path: "/login",
-    element:  <LoginPage />,
+    element: <LoginPage />,
   },
   {
     path: "/register",
@@ -25,6 +30,10 @@ const route = createBrowserRouter([
   {
     path: "/saved",
     element: localStorage.getItem('token') ? <SavedPage /> : <LoginPage />,
+  },
+  {
+    path: "*",
+    element: <h1>404</h1>,
   },
 ]);
 
