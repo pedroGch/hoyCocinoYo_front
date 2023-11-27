@@ -52,25 +52,25 @@ const TableAdmin = () => {
             });
     }, [])
 
-    const handleClickVer = (id) => {
-        // // Lógica para la acción de "Ver" con el ID recibido
-        // alert(`Ver elemento con ID ${id}`);
-        // console.log(`Ver elemento con ID ${id}`);
-        fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error('Error en el servidor');
-                }
-                return res.json();
-            })
-            .then((data) => {
-                setReceta(data);
-                console.log(receta);
-            })
-            .catch((err) => {
-                alert(err);
-            });
-    };
+    // const handleClickVer = (id) => {
+    //     // // Lógica para la acción de "Ver" con el ID recibido
+    //     // alert(`Ver elemento con ID ${id}`);
+    //     // console.log(`Ver elemento con ID ${id}`);
+    //     fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
+    //         .then((res) => {
+    //             if (!res.ok) {
+    //                 throw new Error('Error en el servidor');
+    //             }
+    //             return res.json();
+    //         })
+    //         .then((data) => {
+    //             setReceta(data);
+    //             console.log(receta);
+    //         })
+    //         .catch((err) => {
+    //             alert(err);
+    //         });
+    // };
 
     const handleClickEditar = (id) => {
         alert(`Editar elemento con ID c`);
