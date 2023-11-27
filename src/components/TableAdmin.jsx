@@ -72,11 +72,11 @@ const TableAdmin = () => {
     //         });
     // };
 
-    const handleClickEditar = (id) => {
-        alert(`Editar elemento con ID c`);
-        // Lógica para la acción de "Editar" con el ID recibido
-        console.log(`Editar elemento con ID ${id}`);
-    };
+    // const handleClickEditar = (id) => {
+    //     alert(`Editar elemento con ID c`);
+    //     // Lógica para la acción de "Editar" con el ID recibido
+    //     console.log(`Editar elemento con ID ${id}`);
+    // };
 
     const handleClickEliminar = (id) => {
         // alert(`Eliminar elemento con ID ${id}`);
@@ -179,10 +179,12 @@ const TableAdmin = () => {
                                         </TableCell>
                                         <TableCell align="right">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                            <Link to={`/recipes/${receta._id}`}>
+                                                <Link to={`/recipes/${receta._id}`}>
                                                 <Button>Ver</Button>
                                                 </Link>
-                                                <Button onClick={() => handleClickEditar(receta._id)}>Editar</Button>
+                                                <Link to={`/recipes/${receta._id}/edit`}>
+                                                <Button>Editar</Button>
+                                                </Link>
                                                 <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
                                             </ButtonGroup>
                                         </TableCell>
