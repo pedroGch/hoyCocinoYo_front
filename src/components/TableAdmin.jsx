@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect, useState } from "react";
 import { capitalize } from "../helpers";
 import { Box, Container, Divider, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -25,7 +26,55 @@ const rows = [
 
 
 const TableAdmin = () => {
+    const [recetas, setRecetas] = useState([]);
+    const [receta, setReceta] = useState(null);
+    useEffect(() => {
+        fetch('http://127.0.0.1:8009/api/v1/recetas/todas')
+            .then(respuesta => {
+                if (!respuesta.ok) {
+                    throw new Error('Error en el servidor')
+                }
+                return respuesta.json();
+            })
+            .then(res => {
+                setRecetas(res);
+            })
+            .catch(err => {
+                alert(err);
+            });
+    }, [])
 
+    const handleClickVer = (id) => {
+        // // Lógica para la acción de "Ver" con el ID recibido
+        // alert(`Ver elemento con ID ${id}`);
+        // console.log(`Ver elemento con ID ${id}`);
+        fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error('Error en el servidor');
+                }
+                return res.json();
+            })
+            .then((data) => {
+                setReceta(data);
+                console.log(receta);
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    };
+
+    const handleClickEditar = (id) => {
+        alert(`Editar elemento con ID c`);
+        // Lógica para la acción de "Editar" con el ID recibido
+        console.log(`Editar elemento con ID ${id}`);
+    };
+
+    const handleClickEliminar = (id) => {
+        alert(`Eliminar elemento con ID ${id}`);
+        // Lógica para la acción de "Eliminar" con el ID recibido
+        console.log(`Eliminar elemento con ID ${id}`);
+    };
 
 
     return (
@@ -71,18 +120,18 @@ const TableAdmin = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {recetas.map((receta) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={receta.nombre}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell component="th" scope="row">
-                                        {row.name}
+                                        {receta.nombre}
                                     </TableCell>
                                     <TableCell align="right"><ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                        <Button>Ver</Button>
-                                        <Button>Editar</Button>
-                                        <Button>Eliminar</Button>
+                                        <Button onClick={() => handleClickVer(receta._id)}>Ver</Button>
+                                        <Button onClick={() => handleClickEditar(receta._id)}>Editar</Button>
+                                        <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
                                     </ButtonGroup></TableCell>
                                 </TableRow>
                             ))}
