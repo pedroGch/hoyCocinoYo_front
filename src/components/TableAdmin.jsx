@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import Swal from 'sweetalert2';
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -71,9 +72,57 @@ const TableAdmin = () => {
     };
 
     const handleClickEliminar = (id) => {
-        alert(`Eliminar elemento con ID ${id}`);
-        // Lógica para la acción de "Eliminar" con el ID recibido
-        console.log(`Eliminar elemento con ID ${id}`);
+        // alert(`Eliminar elemento con ID ${id}`);
+        // // Lógica para la acción de "Eliminar" con el ID recibido
+        // console.log(`Eliminar elemento con ID ${id}`);
+        Swal.fire({
+            title: "¿Estás seguro que deseás borrar la receta?",
+            text: `Una vez eliminada, no podrás recuperarla.`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, borrar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const token = localStorage.getItem('token');
+                fetch(`http:////127.0.0.1:8009/api/v1/recetas/${id}/borrar`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'x-acces-token': token
+                    }
+                })
+                .then(respuesta => {
+                    if (!respuesta.ok) {
+                      throw new Error('Error en el servidor')
+                    }
+                    Swal.fire({
+                        title: "Borrada!",
+                        text: "Tu receta ha sido borrada con éxito.",
+                        icon: "success"
+                    });
+                    return respuesta.json();
+                  })
+              
+                }
+          });
+
+        // fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}/borrar`)
+        // .then((res) => {
+        //     if (!res.ok) {
+        //         throw new Error('Error en el servidor');
+        //     }
+        //     return res.json();
+        // })
+        // .then((data) => {
+        //     setReceta(data);
+        //     console.log(receta);
+        // })
+        // .catch((err) => {
+        //     alert(err);
+        // });
+
     };
 
 
