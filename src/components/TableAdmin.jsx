@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
@@ -178,7 +179,9 @@ const TableAdmin = () => {
                                         </TableCell>
                                         <TableCell align="right">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
-                                                <Button onClick={() => handleClickVer(receta._id)}>Ver</Button>
+                                            <Link to={`/recipes/${receta._id}`}>
+                                                <Button>Ver</Button>
+                                                </Link>
                                                 <Button onClick={() => handleClickEditar(receta._id)}>Editar</Button>
                                                 <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
                                             </ButtonGroup>
