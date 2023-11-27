@@ -49,15 +49,16 @@ const HeroUpload = () => {
   const handleSubmit = (e) => {
     // Envio de datos al backend
     e.preventDefault();
+    const usuario = JSON.parse(localStorage.getItem('usuario'))
     const data = JSON.stringify({
+      "id_usuario" : usuario._id,
       "nombre": document.getElementById('recetaNombre').value,
       "categoria": categoria,
       "ingredientes": ingredientes,
       "preparacion": document.getElementById('recetaPreparacion').value,
-      "imagen_ruta": document.getElementById('imagen_ruta').value,
-      "alt": "Foto de " + document.getElementById('recetaNombre').value,
-      "meGusta": false,
-      "guardado": false
+      "imagen_ruta": "receta-predeterminada.jpg",
+      //"alt": "receta generica",
+
     });
 
     try {
@@ -202,12 +203,12 @@ const HeroUpload = () => {
             <Grid container sx={{ marginBottom: '2rem' }}>
               <TextField fullWidth label="Preparación" id="recetaPreparacion" />
             </Grid>
-            <Grid container>
+            {/* <Grid container>
               <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Subir archivo
                 <VisuallyHiddenInput type="file" id="imagen_ruta" />
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid container sx={{ marginTop: '2rem' }}>
               <Button onClick={handleSubmit} sx={{ backgroundColor: '#775653', marginRight: '2rem' }} component="label" variant="contained" >
                 Guardar

@@ -8,6 +8,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import CreateIcon from '@mui/icons-material/Create';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import LogoutIcon from '@mui/icons-material/Logout';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 const drawerWidth = 240;
 
@@ -29,6 +30,12 @@ const links = [
     text: 'Recetas guardadas',
     url: '/saved',
     icon: <BookmarkIcon />
+  },
+  {
+    id: 4,
+    text: 'Panel Admin',
+    url: '/admin',
+    icon: <AdminPanelSettingsIcon />
   }
  
 
