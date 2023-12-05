@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import {
   Card,
   CardMedia,
@@ -14,8 +15,10 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Link } from 'react-router-dom';
 
 const RecipeCard = (props) => {
-  const LikeRecipe = (cantidad, id) => {
 
+  const [likes, setLikes] = useState(props.cantMeGusta);
+  
+  const LikeRecipe = (cantidad, id) => {
     fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}/editar`, {
       method: 'PUT',
       headers: {
@@ -25,11 +28,13 @@ const RecipeCard = (props) => {
       body: JSON.stringify({ "cantMeGusta": cantidad }),
     })
       .then(respuesta => {
-        (respuesta.ok) ? alert('todo ok') : alert('ups algo salio mal')
+        if (respuesta.ok) {
+          setLikes(cantidad)
+        }
       })
   }
   const handleLikedRecipe = (cantidad, id) => {
-    localStorage.getItem('token') ? LikeRecipe(cantidad + 1, id) : alert('Para dar me gusta debes estar logueado')
+    localStorage.getItem('token') ? LikeRecipe(cantidad + 1, id) : ""
   }
 
   return (
@@ -54,7 +59,7 @@ const RecipeCard = (props) => {
         <IconButton aria-label="add to favorites" onClick={() => handleLikedRecipe(props.cantMeGusta, props.id)}>
           <FavoriteIcon />
           <Typography>
-            {props.cantMeGusta}
+            {likes}
           </Typography>
         </IconButton>
         <IconButton aria-label="add to favorites">
