@@ -26,17 +26,14 @@ const rows = [
     createData('Gingerbread', 356, 16.0, 49, 3.9),
 ];
 
-
 const TableAdmin = () => {
     const [recetas, setRecetas] = useState([]);
-    const [receta, setReceta] = useState(null);
 
     const user = JSON.parse(localStorage.getItem('usuario'))
 
     const id_usuario = user._id;
- console.log(id_usuario);
+    console.log(id_usuario);
     useEffect(() => {
-        // fetch('http://127.0.0.1:8009/api/v1/recetas/todas')
         fetch(`http://127.0.0.1:8009/api/v1/usuarios/${id_usuario}/recetas`)
             .then(respuesta => {
                 if (!respuesta.ok) {
@@ -50,27 +47,7 @@ const TableAdmin = () => {
             .catch(err => {
                 alert(err);
             });
-    }, [])
-
-    // const handleClickVer = (id) => {
-    //     // // Lógica para la acción de "Ver" con el ID recibido
-    //     // alert(`Ver elemento con ID ${id}`);
-    //     // console.log(`Ver elemento con ID ${id}`);
-    //     fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
-    //         .then((res) => {
-    //             if (!res.ok) {
-    //                 throw new Error('Error en el servidor');
-    //             }
-    //             return res.json();
-    //         })
-    //         .then((data) => {
-    //             setReceta(data);
-    //             console.log(receta);
-    //         })
-    //         .catch((err) => {
-    //             alert(err);
-    //         });
-    // };
+    }, []);
 
     // const handleClickEditar = (id) => {
     //     alert(`Editar elemento con ID c`);
@@ -79,9 +56,6 @@ const TableAdmin = () => {
     // };
 
     const handleClickEliminar = (id) => {
-        // alert(`Eliminar elemento con ID ${id}`);
-        // // Lógica para la acción de "Eliminar" con el ID recibido
-        // console.log(`Eliminar elemento con ID ${id}`);
         Swal.fire({
             title: "¿Estás seguro que deseás borrar la receta?",
             text: `Una vez eliminada, no podrás recuperarla.`,
@@ -109,6 +83,7 @@ const TableAdmin = () => {
                             text: "Tu receta ha sido borrada con éxito.",
                             icon: "success"
                         });
+                        setRecetas(recetas.filter(receta => receta._id !== id));
                         return respuesta.json();
                     })
 
@@ -180,10 +155,10 @@ const TableAdmin = () => {
                                         <TableCell align="right">
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                                 <Link to={`/recipes/${receta._id}`}>
-                                                <Button>Ver</Button>
+                                                    <Button>Ver</Button>
                                                 </Link>
                                                 <Link to={`/recipes/${receta._id}/edit`}>
-                                                <Button>Editar</Button>
+                                                    <Button>Editar</Button>
                                                 </Link>
                                                 <Button onClick={() => handleClickEliminar(receta._id)}>Eliminar</Button>
                                             </ButtonGroup>
@@ -192,10 +167,8 @@ const TableAdmin = () => {
                                 ))
                             )}
                         </TableBody>
-
                     </Table>
                 </TableContainer>
-
             </Container>
         </section>
     )
