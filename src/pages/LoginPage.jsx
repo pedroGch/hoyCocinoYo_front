@@ -46,6 +46,7 @@ export default function SignIn() {
         setError(false);
         setAlerta('');
         localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data));
         navigate('/', { replace: true });
       })
       .catch(err => {

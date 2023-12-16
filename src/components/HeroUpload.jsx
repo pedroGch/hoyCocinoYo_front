@@ -6,18 +6,12 @@ import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
 
 const HeroUpload = () => {
-  const navigate = useNavigate()
-  const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
+  const navigate = useNavigate();
+
+  const [nombre, setNombre] = useState('');
+  const handleChangeNombre = (e) => {
+    setNombre(e.target.value);
+  }
 
   const [unidad, setUnidad] = React.useState('');
   const handleChangeUnidad = (e) => {
@@ -29,42 +23,48 @@ const HeroUpload = () => {
     setCategoria(e.target.value);
   };
 
-  const [ingredientes, setIngredientes] = useState([])
+  const [preparacion, setPreparacion] = useState('');
+  const handleChangePreparacion = (e) => {
+    setPreparacion(e.target.value);
+  }
+
+  const [ingredientes, setIngredientes] = useState([]);
+
+  const [ingNombre, setIngNombre] = useState('');
+  const [ingCantidad, setIngCantidad] = useState('');
+
   const agregarIngrediente = () => {
     const nuevoIngrediente = {
       "id": ingredientes.length + 1,
-      "nombre": document.getElementById('ingNombre').value,
-      "cantidad": document.getElementById('ingCantidad').value,
+      "nombre": ingNombre,
+      "cantidad": ingCantidad,
       "unidad": unidad
     }
     setIngredientes(prevIngredientes => [...prevIngredientes, nuevoIngrediente]);
 
-    document.getElementById('ingNombre').value = '';
-    document.getElementById('ingCantidad').value = '';
+    setIngNombre('');
+    setIngCantidad('');
     setUnidad('');
   }
   const eliminarIngrediente = (id) => {
-    // Lógica para eliminar el ingrediente con el id proporcionado
     setIngredientes(prevIngredientes => prevIngredientes.filter(ingrediente => ingrediente.id !== id));
   };
 
   const handleSubmit = async (e) => {
-    // Envio de datos al backend
     e.preventDefault();
     const usuario = JSON.parse(localStorage.getItem('usuario'))
     const data = JSON.stringify({
-      "id_usuario" : usuario._id,
-      "nombre": document.getElementById('recetaNombre').value,
+      "id_usuario": usuario._id,
+      "nombre": nombre,
       "categoria": categoria,
       "ingredientes": ingredientes,
-      "preparacion": document.getElementById('recetaPreparacion').value,
+      "preparacion": preparacion,
       "imagen_ruta": "receta-predeterminada.jpg",
-      //"alt": "receta generica",
-
+      "alt": 'Imagen de receta ID ' + usuario._id
     });
 
     try {
-      const  response = await fetch('http://127.0.0.1:8009/api/v1/recetas/crear', {
+      const response = await fetch('http://127.0.0.1:8009/api/v1/recetas/crear', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -72,7 +72,7 @@ const HeroUpload = () => {
         },
         body: data,
       });
-      
+
       if (response.ok) {
         Swal.fire({
           title: "Agregaste un nueva receta",
@@ -84,27 +84,24 @@ const HeroUpload = () => {
           reverseButtons: true
         }).then((result) => {
           if (result.isConfirmed) {
-            //tengo que limpiar el formulario
-            document.getElementById('recetaNombre').value = ''
-            document.getElementById('recetaPreparacion').value = ''
+            setNombre('');
+            setPreparacion('');
             setCategoria('');
-            document.getElementById('ingNombre').value = '';
-            document.getElementById('ingCantidad').value = '';
+            setIngNombre('');
+            setIngCantidad('');
             setUnidad('');
-            setCategoria([])
           } else if (
-            /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
           ) {
             navigate('/')
           }
         });
-      }else{
+      } else {
         const respuesta = await response.json()
         const mensaje = respuesta.errors.map(error => `* ${error}`).join('\n');
         Swal.fire({
           icon: "error",
-          title: "Te Faltaron completar algunos campos...",
+          title: "Te faltaron completar algunos campos...",
           text: mensaje,
         });
       }
@@ -143,7 +140,7 @@ const HeroUpload = () => {
             marginBottom: '2rem',
             justifyContent: 'center',
           }}>
-            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" />
+            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} />
             <FormControl variant="standard" sx={{ width: '45%', paddingRight: '1rem' }}>
               <InputLabel id="recetaCategoria">Categoría</InputLabel>
               <Select
@@ -234,14 +231,14 @@ const HeroUpload = () => {
               </Grid>
             </Grid>
             <Grid container sx={{ marginBottom: '2rem' }}>
-              <TextField fullWidth label="Preparación" id="recetaPreparacion" />
+              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} />
             </Grid>
-            {/* <Grid container>
+            <Grid container>
               <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                 Subir archivo
                 <VisuallyHiddenInput type="file" id="imagen_ruta" />
               </Button>
-            </Grid> */}
+            </Grid>
             <Grid container sx={{ marginTop: '2rem' }}>
               <Button onClick={handleSubmit} sx={{ backgroundColor: '#775653', marginRight: '2rem' }} component="label" variant="contained" >
                 Guardar
