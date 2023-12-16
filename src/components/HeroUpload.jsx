@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState } from 'react';
-import { styled } from '@mui/material/styles';
 import { Divider, Grid, Box, Container, Button, Typography, TextField, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
 import Swal from 'sweetalert2'
 import { useNavigate } from "react-router-dom";
@@ -234,19 +233,17 @@ const HeroUpload = () => {
               <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} />
             </Grid>
             <Grid container>
-              <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+              <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained">
                 Subir archivo
-                <VisuallyHiddenInput type="file" id="imagen_ruta" />
+                <input type="file" id="imagen_ruta" />
               </Button>
             </Grid>
             <Grid container sx={{ marginTop: '2rem' }}>
               <Button onClick={handleSubmit} sx={{ backgroundColor: '#775653', marginRight: '2rem' }} component="label" variant="contained" >
                 Guardar
               </Button>
-
             </Grid>
           </Box>
-
         </Box>
       </Container>
     </section>
