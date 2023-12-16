@@ -30,21 +30,27 @@ const HeroUpload = () => {
   const [ingredientes, setIngredientes] = useState([]);
 
   const [ingNombre, setIngNombre] = useState('');
+  const handleChangeIngNombre = (e) => {
+    setIngNombre(e.target.value);
+  }
+
   const [ingCantidad, setIngCantidad] = useState('');
+  const handleChangeIngCantidad = (e) => {
+    setIngCantidad(e.target.value);
+  }
 
   const agregarIngrediente = () => {
-    const nuevoIngrediente = {
-      "id": ingredientes.length + 1,
-      "nombre": ingNombre,
-      "cantidad": ingCantidad,
-      "unidad": unidad
-    }
-    setIngredientes(prevIngredientes => [...prevIngredientes, nuevoIngrediente]);
+    // Agrego ingredientes a la lista de ingredientes a partir de los estados generados
+    setIngredientes(prevIngredientes => [...prevIngredientes, { id: Math.random(), nombre: ingNombre, cantidad: ingCantidad, unidad: unidad }]);
 
+    // Limpio los estados de los ingredientes
     setIngNombre('');
     setIngCantidad('');
     setUnidad('');
+
+    // Limpio los campos de los ingredientes
   }
+
   const eliminarIngrediente = (id) => {
     setIngredientes(prevIngredientes => prevIngredientes.filter(ingrediente => ingrediente.id !== id));
   };
@@ -63,7 +69,7 @@ const HeroUpload = () => {
     });
 
     try {
-      const response = await fetch('http://127.0.0.1:8009/api/v1/recetas/crear', {
+      const response = await fetch('http://127.0.0.1:8009/api/v1/recetas', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -134,7 +140,6 @@ const HeroUpload = () => {
           }}>Ingresar receta</Typography>
         </Box>
         <Box component="form" noValidate>
-
           <Box sx={{
             marginBottom: '2rem',
             justifyContent: 'center',
@@ -198,10 +203,10 @@ const HeroUpload = () => {
           }}>
             <Grid container spacing={2} sx={{ marginBottom: '2rem' }}>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth id="ingNombre" label="Nombre del ingrediente" variant="standard" />
+                <TextField fullWidth id="ingNombre" value={ingNombre} onChange={handleChangeIngNombre} label="Nombre del ingrediente" variant="standard" />
               </Grid>
               <Grid item xs={12} md={4}>
-                <TextField fullWidth id="ingCantidad" label="Cantidad" variant="standard" />
+                <TextField fullWidth id="ingCantidad" value={ingCantidad} onChange={handleChangeIngCantidad} label="Cantidad" variant="standard" />
               </Grid>
               <Grid item xs={12} md={4}>
                 <FormControl fullWidth variant="standard">
