@@ -1,5 +1,6 @@
 import HomePage from './pages/HomePage'
 import LoginPage from "./pages/LoginPage"
+import ForgotPassword from './pages/ForgotPassword'
 import RegisterPage from './pages/RegisterPage'
 import UploadPage from './pages/UploadPage'
 import SavedPage from './pages/SavedPage'
@@ -44,6 +45,10 @@ const route = createBrowserRouter([
   {
     path: "/recipes/:id/edit",
     element: localStorage.getItem('token') ? <EditRecipePage /> : <LoginPage />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassword />,
   },
 ]);
 
