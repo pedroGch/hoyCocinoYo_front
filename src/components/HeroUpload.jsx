@@ -40,39 +40,41 @@ const HeroUpload = () => {
   }
 
   const agregarIngrediente = () => {
-    // Agrego ingredientes a la lista de ingredientes a partir de los estados generados
-    setIngredientes(prevIngredientes => [...prevIngredientes, { id: Math.random(), nombre: ingNombre, cantidad: ingCantidad, unidad: unidad }]);
-
-    // Limpio los estados de los ingredientes
+    setIngredientes(prevIngredientes => [...prevIngredientes, { id: prevIngredientes.length + 1, nombre: ingNombre, cantidad: ingCantidad, unidad: unidad }]);
     setIngNombre('');
     setIngCantidad('');
     setUnidad('');
-
-    // Limpio los campos de los ingredientes
   }
 
   const eliminarIngrediente = (id) => {
     setIngredientes(prevIngredientes => prevIngredientes.filter(ingrediente => ingrediente.id !== id));
   };
 
+  const [imagen, setImagen] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const usuario = JSON.parse(localStorage.getItem('usuario'))
-    const data = JSON.stringify({
-      "id_usuario": usuario._id,
-      "nombre": nombre,
-      "categoria": categoria,
-      "ingredientes": ingredientes,
-      "preparacion": preparacion,
-      "imagen_ruta": "receta-predeterminada.jpg",
-      "alt": 'Imagen de receta ID ' + usuario._id
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    
+    const data = new FormData();
+    data.append('id_usuario', usuario._id);
+    data.append('nombre', nombre);
+    data.append('categoria', categoria);
+
+    ingredientes.forEach((ingrediente, index) => {
+      data.append(`ingredientes[${index}][nombre]`, ingrediente.nombre);
+      data.append(`ingredientes[${index}][cantidad]`, ingrediente.cantidad);
+      data.append(`ingredientes[${index}][unidad]`, ingrediente.unidad);
     });
+
+    data.append('preparacion', preparacion);
+    data.append('imagen', imagen);
+    data.append('alt', 'Imagen de receta de ' + nombre);
 
     try {
       const response = await fetch('http://127.0.0.1:8009/api/v1/recetas', {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
           'x-acces-token': localStorage.getItem('token')
         },
         body: data,
@@ -95,6 +97,8 @@ const HeroUpload = () => {
             setIngNombre('');
             setIngCantidad('');
             setUnidad('');
+            setIngredientes([]);
+            setImagen('');
           } else if (
             result.dismiss === Swal.DismissReason.cancel
           ) {
@@ -144,7 +148,7 @@ const HeroUpload = () => {
             marginBottom: '2rem',
             justifyContent: 'center',
           }}>
-            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} />
+            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} value={nombre} />
             <FormControl variant="standard" sx={{ width: '45%', paddingRight: '1rem' }}>
               <InputLabel id="recetaCategoria">Categoría</InputLabel>
               <Select
@@ -235,12 +239,14 @@ const HeroUpload = () => {
               </Grid>
             </Grid>
             <Grid container sx={{ marginBottom: '2rem' }}>
-              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} />
+              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} value={preparacion} />
             </Grid>
             <Grid container>
               <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained">
                 Subir archivo
-                <input type="file" id="imagen_ruta" />
+                <input filename={imagen} onChange={e => setImagen(e.target.files[0])}
+                  type='file'
+                  accept='image/*' />
               </Button>
             </Grid>
             <Grid container sx={{ marginTop: '2rem' }}>
