@@ -32,7 +32,6 @@ const TableAdmin = () => {
     const user = JSON.parse(localStorage.getItem('usuario'))
 
     const id_usuario = user._id;
-    console.log(id_usuario);
     useEffect(() => {
         fetch(`http://127.0.0.1:8009/api/v1/usuarios/${id_usuario}/recetas`)
             .then(respuesta => {
@@ -67,7 +66,7 @@ const TableAdmin = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
-                fetch(`http:////127.0.0.1:8009/api/v1/recetas/${id}/borrar`, {
+                fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-type': 'application/json',
