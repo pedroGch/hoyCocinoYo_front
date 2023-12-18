@@ -29,7 +29,7 @@ const RecipeDetailsPage = () => {
                 <Chip sx={{ display: 'flex', justifyContent: 'center', width: '100px', margin: 'auto' }} label={recipe.categoria} />
                 <Box sx={{ display: 'flex', justifyContent: 'center', margin: 'auto', marginTop: "15px", marginBottom: "30px" }}>
                     <img
-                        src={"/receta-predeterminada.jpg"}
+                        src={`/${recipe.imagen_ruta}`}
                         height={150}
                         width={150}
                         alt={`Receta de ${recipe.nombre}`}
