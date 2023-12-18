@@ -1,11 +1,25 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Divider, Grid, Box, Container, Button, Typography, TextField, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
 import Swal from 'sweetalert2'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const HeroUpload = () => {
   const navigate = useNavigate();
+
+  const [recipe, setRecipe] = useState({nombre: '', categoria:'', ingredientes: [], alt:'', imagen_ruta:'', id_usuario:'', preparacion:'', id:''})
+  const { id } = useParams()
+  useEffect(() => {
+    const getRecipe = async () => {
+      if (id){
+        const response = await fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
+        const data = await response.json()
+        console.log(data);
+        setRecipe(data)
+      }
+    }
+    getRecipe();
+  }, [id]);
 
   const [nombre, setNombre] = useState('');
   const handleChangeNombre = (e) => {
@@ -148,12 +162,13 @@ const HeroUpload = () => {
             marginBottom: '2rem',
             justifyContent: 'center',
           }}>
-            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} value={nombre} />
+            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} value={recipe.nombre} />
             <FormControl variant="standard" sx={{ width: '45%', paddingRight: '1rem' }}>
               <InputLabel id="recetaCategoria">Categoría</InputLabel>
               <Select
                 id="recetaCategoria"
-                value={categoria}
+                value={categoria || recipe.categoria}
+                defaultValue={recipe.categoria}
                 onChange={handleChangeCategoria}
                 label="Categoría"
               >
@@ -222,7 +237,7 @@ const HeroUpload = () => {
                     onChange={handleChangeUnidad}
                     label="Unidad"
                   >
-                    <MenuItem value="">
+                    <MenuItem value="Niguna">
                       <em>Ninguna</em>
                     </MenuItem>
                     <MenuItem value={'aGusto'}>a gusto</MenuItem>
@@ -239,7 +254,7 @@ const HeroUpload = () => {
               </Grid>
             </Grid>
             <Grid container sx={{ marginBottom: '2rem' }}>
-              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} value={preparacion} />
+              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} value={recipe.preparacion} />
             </Grid>
             <Grid container>
               <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained">
