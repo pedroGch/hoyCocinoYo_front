@@ -19,7 +19,7 @@ const RecipeCard = (props) => {
   const [likes, setLikes] = useState(props.cantMeGusta);
   
   const LikeRecipe = (cantidad, id) => {
-    fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}/editar`, {
+    fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
