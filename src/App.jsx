@@ -1,6 +1,7 @@
 import HomePage from './pages/HomePage'
 import LoginPage from "./pages/LoginPage"
 import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 import RegisterPage from './pages/RegisterPage'
 import UploadPage from './pages/UploadPage'
 import SavedPage from './pages/SavedPage'
@@ -49,6 +50,10 @@ const route = createBrowserRouter([
   {
     path: "/forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "/:id/:token/reset-password",
+    element: <ResetPassword />,
   },
 ]);
 
