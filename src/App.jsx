@@ -45,7 +45,7 @@ const route = createBrowserRouter([
   },
   {
     path: "/recipes/:id/edit",
-    element: localStorage.getItem('token') ? <EditRecipePage /> : <LoginPage />,
+    element: localStorage.getItem('token') ? <UploadPage /> : <LoginPage />,
   },
   {
     path: "/forgot-password",
