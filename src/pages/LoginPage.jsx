@@ -117,6 +117,15 @@ export default function SignIn() {
                 </Box>
               </Grid>
             </Grid>
+            <Grid container justifyContent="center">
+              <Grid item>
+                <Box sx={{ mt: 3 }}>
+                  <Link to="/forgot-password">
+                    ¿Olvidasté tu contraseña? Recuperala
+                  </Link>
+                </Box>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
         <Footer />
