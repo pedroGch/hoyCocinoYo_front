@@ -1,4 +1,5 @@
 import React from 'react'
+import API from "../services/api.service";
 import { useState, useEffect } from 'react';
 import { Divider, Grid, Box, Container, Button, Typography, TextField, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
 import Swal from 'sweetalert2'
@@ -7,23 +8,26 @@ import { useNavigate, useParams } from "react-router-dom";
 const HeroUpload = () => {
   const navigate = useNavigate();
 
-  const [recipe, setRecipe] = useState({nombre: '', categoria:'', ingredientes: [], alt:'', imagen_ruta:'', id_usuario:'', preparacion:'', id:''})
   const { id } = useParams()
-  useEffect(() => {
+  useEffect(() => { 
     const getRecipe = async () => {
+      console.log(`este es el id: ${id}`);
       if (id){
-        const response = await fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`)
-        const data = await response.json()
-        console.log(data);
-        setRecipe(data)
+        const response = await API.call({uri: `recetas/${id}`, method: 'GET', body: undefined})   
+        delete response._id
+        console.log(response);
+        setNombre(response.nombre)
+        setCategoria(response.categoria)
+        setPreparacion(response.preparacion)
+        setIngredientes([...response.ingredientes])
       }
     }
     getRecipe();
   }, [id]);
-
+  
   const [nombre, setNombre] = useState('');
   const handleChangeNombre = (e) => {
-    setNombre(e.target.value);
+    setNombre(e.target.value)
   }
 
   const [unidad, setUnidad] = React.useState('');
@@ -50,7 +54,7 @@ const HeroUpload = () => {
 
   const [ingCantidad, setIngCantidad] = useState('');
   const handleChangeIngCantidad = (e) => {
-    setIngCantidad(e.target.value);
+    setIngCantidad(e.target.value); 
   }
 
   const agregarIngrediente = () => {
@@ -65,70 +69,76 @@ const HeroUpload = () => {
   };
 
   const [imagen, setImagen] = useState('');
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const usuario = JSON.parse(localStorage.getItem('usuario'));
     
-    const data = new FormData();
-    data.append('id_usuario', usuario._id);
-    data.append('nombre', nombre);
-    data.append('categoria', categoria);
-
-    ingredientes.forEach((ingrediente, index) => {
-      data.append(`ingredientes[${index}][nombre]`, ingrediente.nombre);
-      data.append(`ingredientes[${index}][cantidad]`, ingrediente.cantidad);
-      data.append(`ingredientes[${index}][unidad]`, ingrediente.unidad);
-    });
-
-    data.append('preparacion', preparacion);
-    data.append('imagen', imagen);
-    data.append('alt', 'Imagen de receta de ' + nombre);
+    let data = {
+      nombre: '', 
+      categoria:'', 
+      ingredientes: [],  
+      preparacion:''
+    }
+    data.nombre = nombre;
+    data.categoria = categoria;
+    data.ingredientes = [...ingredientes]
+    data.preparacion = preparacion;
+    if (!id){
+      data.id_usuario = usuario._id;
+      data.imagen = imagen;
+      data.alt = `Imagen de receta de ${nombre}`;
+    }
 
     try {
-      const response = await fetch('http://127.0.0.1:8009/api/v1/recetas', {
-        method: 'POST',
-        headers: {
-          'x-acces-token': localStorage.getItem('token')
-        },
-        body: data,
-      });
-
-      if (response.ok) {
-        Swal.fire({
-          title: "Agregaste un nueva receta",
-          text: "¿Querés agregar otra?",
-          icon: "success",
-          showCancelButton: true,
-          confirmButtonText: "Sí",
-          cancelButtonText: "No, ¡así estoy bien!",
-          reverseButtons: true
-        }).then((result) => {
-          if (result.isConfirmed) {
-            setNombre('');
-            setPreparacion('');
-            setCategoria('');
-            setIngNombre('');
-            setIngCantidad('');
-            setUnidad('');
-            setIngredientes([]);
-            setImagen('');
-          } else if (
-            result.dismiss === Swal.DismissReason.cancel
-          ) {
-            navigate('/')
+      let response;
+      if (id){
+        response = await API.call(
+          {
+            uri: `recetas/${id}`,
+            method: 'PUT',
+            body: data
           }
-        });
-      } else {
-        const respuesta = await response.json()
-        const mensaje = respuesta.errors.map(error => `* ${error}`).join('\n');
-        Swal.fire({
-          icon: "error",
-          title: "Te faltaron completar algunos campos...",
-          text: mensaje,
-        });
+        )       
+      }else{
+        response = await API.call(
+          {
+            uri: `recetas`,
+            method: 'POST',
+            body: data
+          }
+        )
       }
+      Swal.fire({
+        title: "Agregaste un nueva receta",
+        text: "¿Querés agregar otra?",
+        icon: "success",
+        showCancelButton: true,
+        confirmButtonText: "Sí",
+        cancelButtonText: "No, ¡así estoy bien!",
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setNombre('');
+          setPreparacion('');
+          setCategoria('');
+          setIngNombre('');
+          setIngCantidad('');
+          setUnidad('');
+          setIngredientes([]);
+          setImagen('');
+        } else if (
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          navigate('/')
+        }
+        });
+      
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Te faltaron completar algunos campos...",
+        text: error.respose.data,
+      });
       console.error('Error al enviar el formulario:', error);
     }
   };
@@ -162,13 +172,13 @@ const HeroUpload = () => {
             marginBottom: '2rem',
             justifyContent: 'center',
           }}>
-            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} value={recipe.nombre} />
+            <TextField sx={{ width: '45%', paddingRight: '1rem' }} id="recetaNombre" label="Nombre de la receta" variant="standard" onChange={handleChangeNombre} value={nombre} />
             <FormControl variant="standard" sx={{ width: '45%', paddingRight: '1rem' }}>
               <InputLabel id="recetaCategoria">Categoría</InputLabel>
               <Select
                 id="recetaCategoria"
-                value={categoria || recipe.categoria}
-                defaultValue={recipe.categoria}
+                value={categoria}
+                defaultValue={categoria}
                 onChange={handleChangeCategoria}
                 label="Categoría"
               >
@@ -254,7 +264,7 @@ const HeroUpload = () => {
               </Grid>
             </Grid>
             <Grid container sx={{ marginBottom: '2rem' }}>
-              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} value={recipe.preparacion} />
+              <TextField fullWidth label="Preparación" id="recetaPreparacion" onChange={handleChangePreparacion} value={preparacion} />
             </Grid>
             <Grid container>
               <Button fullWidth sx={{ backgroundColor: '#775653', }} component="label" variant="contained">
