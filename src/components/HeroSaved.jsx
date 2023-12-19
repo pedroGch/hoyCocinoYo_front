@@ -122,7 +122,7 @@ const HeroSaved =  () => {
                         fontSize: '1.5rem',
                         textAlign: 'center',
                         marginBottom: '2rem'
-                    }}>Administrar tus recetas</Typography>
+                    }}>Tus recetas guardadas</Typography>
                 </Box>
 
                 <TableContainer component={Paper}>
