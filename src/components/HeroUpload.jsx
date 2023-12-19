@@ -109,8 +109,8 @@ const HeroUpload = () => {
         )
       }
       Swal.fire({
-        title: "Agregaste un nueva receta",
-        text: "¿Querés agregar otra?",
+        title: "Todo salió muy bien!",
+        text: "¿Querés agregar una receta?",
         icon: "success",
         showCancelButton: true,
         confirmButtonText: "Sí",
