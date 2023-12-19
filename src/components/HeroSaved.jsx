@@ -53,6 +53,9 @@ const HeroSaved =  () => {
 
 
     const handleClickEliminar = (id) => {
+        const usuario = JSON.parse(localStorage.getItem('usuario'))
+        const idUser = usuario._id
+        console.log(`http://127.0.0.1:8009/api/v1/usuarios/${idUser}/${id}`);
         Swal.fire({
             title: "¿Estás seguro que deseás borrar la receta?",
             text: `Una vez eliminada, no podrás recuperarla.`,
@@ -64,11 +67,10 @@ const HeroSaved =  () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
-                fetch(`http://127.0.0.1:8009/api/v1/recetas/${id}`, {
+                fetch(`http://127.0.0.1:8009/api/v1/usuarios/${idUser}/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-type': 'application/json',
-                        'x-acces-token': token
                     }
                 })
                     .then(respuesta => {
@@ -80,7 +82,7 @@ const HeroSaved =  () => {
                             text: "Tu receta ha sido borrada con éxito.",
                             icon: "success"
                         });
-                        setRecetas(recetas.filter(receta => receta._id !== id));
+                        setRecetas(recetas.filter(receta => receta.id_receta !== id));
                         return respuesta.json();
                     })
 
@@ -153,7 +155,9 @@ const HeroSaved =  () => {
                                             <ButtonGroup variant="contained" aria-label="outlined primary button group">
                                                 <Link to={`/recipes/${receta.id_receta}`}>
                                                     <Button>Ver</Button>
-                                                </Link>
+                                                </Link>                                            
+                                                <Button onClick={() => handleClickEliminar(receta.id_receta)}>Eliminar</Button>
+
                                             </ButtonGroup>
                                         </TableCell>
                                     </TableRow>
