@@ -25,12 +25,12 @@ const links = [
     url: '/upload',
     icon: <CreateIcon />,
   },
-//   {
-//     id: 3,
-//     text: 'Recetas guardadas',
-//     url: '/saved',
-//     icon: <BookmarkIcon />
-//   },
+  {
+    id: 3,
+    text: 'Recetas guardadas',
+    url: '/saved',
+    icon: <BookmarkIcon />
+  },
   {
     id: 4,
     text: 'Panel Admin',

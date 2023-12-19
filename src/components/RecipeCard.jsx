@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Link } from 'react-router-dom';
 
+
 const RecipeCard = (props) => {
 
   const [likes, setLikes] = useState(props.cantMeGusta);
@@ -35,6 +36,23 @@ const RecipeCard = (props) => {
   }
   const handleLikedRecipe = (cantidad, id) => {
     localStorage.getItem('token') ? LikeRecipe(cantidad + 1, id) : ""
+  }
+
+  const handleSave = (id, nombreReceta) => {
+    const usuario = JSON.parse(localStorage.getItem('usuario'))
+    console.log(nombreReceta);
+    fetch(`http://127.0.0.1:8009/api/v1/usuarios/${usuario._id}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ "nombre_receta": nombreReceta }),
+    })
+      .then(respuesta => {
+        if (respuesta.ok) {
+          setLikes(cantidad)
+        }
+      })
   }
 
   return (
@@ -62,8 +80,8 @@ const RecipeCard = (props) => {
             {likes}
           </Typography>
         </IconButton>
-        <IconButton aria-label="add to favorites">
-          <BookmarkIcon />
+        <IconButton aria-label="add to favorites" onClick={() => handleSave(props.id, props.nombre)}>
+          <BookmarkIcon  />
         </IconButton>
       </CardContent>
       <CardActions disableSpacing>
